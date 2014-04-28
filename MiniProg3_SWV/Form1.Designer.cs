@@ -36,9 +36,10 @@
             this.rbAsync = new System.Windows.Forms.RadioButton();
             this.rbSync = new System.Windows.Forms.RadioButton();
             this.btnExecute = new System.Windows.Forms.Button();
-            this.btnExit = new System.Windows.Forms.Button();
             this.rtbLog = new System.Windows.Forms.RichTextBox();
             this.timerUI = new System.Windows.Forms.Timer(this.components);
+            this.btnConnect = new System.Windows.Forms.Button();
+            this.btnDisconnect = new System.Windows.Forms.Button();
             this.gbProtocol.SuspendLayout();
             this.gbMode.SuspendLayout();
             this.SuspendLayout();
@@ -119,21 +120,11 @@
             this.btnExecute.UseVisualStyleBackColor = true;
             this.btnExecute.Click += new System.EventHandler(this.btnExecute_Click);
             // 
-            // btnExit
-            // 
-            this.btnExit.Location = new System.Drawing.Point(86, 48);
-            this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(75, 23);
-            this.btnExit.TabIndex = 3;
-            this.btnExit.Text = "Exit";
-            this.btnExit.UseVisualStyleBackColor = true;
-            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
-            // 
             // rtbLog
             // 
             this.rtbLog.Location = new System.Drawing.Point(5, 77);
             this.rtbLog.Name = "rtbLog";
-            this.rtbLog.Size = new System.Drawing.Size(310, 278);
+            this.rtbLog.Size = new System.Drawing.Size(318, 278);
             this.rtbLog.TabIndex = 4;
             this.rtbLog.Text = "";
             // 
@@ -143,21 +134,42 @@
             this.timerUI.Interval = 350;
             this.timerUI.Tick += new System.EventHandler(this.timerUI_Tick);
             // 
+            // btnConnect
+            // 
+            this.btnConnect.Location = new System.Drawing.Point(167, 48);
+            this.btnConnect.Name = "btnConnect";
+            this.btnConnect.Size = new System.Drawing.Size(75, 23);
+            this.btnConnect.TabIndex = 5;
+            this.btnConnect.Text = "Connect";
+            this.btnConnect.UseVisualStyleBackColor = true;
+            this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
+            // 
+            // btnDisconnect
+            // 
+            this.btnDisconnect.Location = new System.Drawing.Point(248, 48);
+            this.btnDisconnect.Name = "btnDisconnect";
+            this.btnDisconnect.Size = new System.Drawing.Size(75, 23);
+            this.btnDisconnect.TabIndex = 6;
+            this.btnDisconnect.Text = "Disconnect";
+            this.btnDisconnect.UseVisualStyleBackColor = true;
+            this.btnDisconnect.Click += new System.EventHandler(this.btnDisconnect_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(322, 363);
+            this.ClientSize = new System.Drawing.Size(334, 361);
+            this.Controls.Add(this.btnDisconnect);
+            this.Controls.Add(this.btnConnect);
             this.Controls.Add(this.rtbLog);
-            this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnExecute);
             this.Controls.Add(this.gbMode);
             this.Controls.Add(this.gbProtocol);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(330, 397);
-            this.MinimumSize = new System.Drawing.Size(330, 397);
+            this.MaximumSize = new System.Drawing.Size(400, 397);
+            this.MinimumSize = new System.Drawing.Size(350, 397);
             this.Name = "Form1";
-            this.Text = "MiniProg3 SWV Demo";
+            this.Text = "MiniProg3 SWV Debug Tool";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.gbProtocol.ResumeLayout(false);
             this.gbProtocol.PerformLayout();
@@ -176,9 +188,10 @@
         private System.Windows.Forms.RadioButton rbAsync;
         private System.Windows.Forms.RadioButton rbSync;
         private System.Windows.Forms.Button btnExecute;
-        private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.RichTextBox rtbLog;
         private System.Windows.Forms.Timer timerUI;
+        private System.Windows.Forms.Button btnConnect;
+        private System.Windows.Forms.Button btnDisconnect;
     }
 }
 

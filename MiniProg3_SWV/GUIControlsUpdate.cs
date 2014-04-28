@@ -36,6 +36,7 @@ namespace MiniProg3_SWV
         private bool IsPortOpened()
         {
             int isOpen;
+            if (pp == null) return false;
             pp.IsPortOpen(out isOpen, out m_sLastError);
             if (isOpen == 0) return false;
             return true;
@@ -65,12 +66,10 @@ namespace MiniProg3_SWV
             if (guiStatusNow.Busy == Busy.IDLE)
             {
                 btnExecute.Text = "Start";
-                btnExit.Enabled = true;
             }
             else
             {
                 btnExecute.Text = "Stop";
-                btnExit.Enabled = false;
             }
 
             //"Close" button on the Form

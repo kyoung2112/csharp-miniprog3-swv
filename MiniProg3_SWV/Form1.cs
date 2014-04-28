@@ -30,6 +30,8 @@ namespace MiniProg3_SWV
         public Form1()
         {
             InitializeComponent();
+            
+            /* Go ahead and attempt connection with Miniprog3 */
             InitPPCOM();
         }
 
@@ -55,7 +57,11 @@ namespace MiniProg3_SWV
                 enumMode = enumSWVMode.MANCHESTER;
             else
                 enumMode = enumSWVMode.TX8;
-
+            if (pp == null)
+            {
+                AppendTextToLog("==> Error! Not connected to programmer.");
+                return;
+            }
             hr = pp.SWV_Setup(enumMode, 6000000, null, out m_sLastError);
             if (!SUCCEEDED(hr))
             {
@@ -200,8 +206,12 @@ namespace MiniProg3_SWV
             hr = OpenPort(out strError);
             if (!SUCCEEDED(hr))
             {
-                rtbLog.AppendText(strError);
+                rtbLog.AppendText("Connect error: "+strError);
                 rtbLog.AppendText("\r\n");
+
+                //Disconnect from COM-object and unload it
+                pp = null;
+                GC.GetTotalMemory(true);
                 return;
             }
 
@@ -216,13 +226,29 @@ namespace MiniProg3_SWV
             object ports;
             hr = pp.GetPorts(out ports, out strError);
             string[] portsStr = ports as string[];
-            AppendTextToLog("Start-up. Connected to '" + portsStr[0] + "' programmer!");
+            AppendTextToLog("Connected to '" + portsStr[0] + "' programmer!");
         }
 
         private void ReleaseCOM()
         {
             //Close Port first
-            if (pp != null) pp.ClosePort(out m_sLastError);
+            if (pp != null)
+            {
+                pp.ClosePort(out m_sLastError);
+            }
+            else
+            {
+                AppendTextToLog("Disconnect attempted - not connected!");
+            }
+            if (m_sLastError != "")
+            {
+                AppendTextToLog("Disconnect error: " + m_sLastError);
+            }
+            else
+            {
+                AppendTextToLog("Successfully disconnected from programmer!");
+            }
+
 
             //Disconnect from COM-object and unload it
             pp = null;
@@ -243,6 +269,7 @@ namespace MiniProg3_SWV
             else
                 StopCommand(guiSettings);
         }
+
 
         private void btnExit_Click(object sender, EventArgs e)
         {
@@ -305,7 +332,16 @@ namespace MiniProg3_SWV
             byte[] data = dataOUT as byte[];
             for (int i = 0; i < data.Length; i++)
             {
-                ShowRepeatData(data[i].ToString("X2") + " ");
+                //KLY
+                //ShowRepeatData(data[i].ToString("X2") + " ");
+                //ShowRepeatData(data[i].ToString());
+                /* Copy the proper data to the form. We are using channel 0, so 0x01 is the header for each
+                 * data packet. The sync frame is 0x00 and 0x80, so ignore these too. All other bytes are 
+                 * printed to the form */
+                if ((data[i] != 0x01) && (data[i] != 0x00) && (data[i] != 0x80))
+                {
+                    ShowRepeatData(Encoding.ASCII.GetString(new byte[] { data[i] }));
+                }
             }
         }
 
@@ -329,6 +365,17 @@ namespace MiniProg3_SWV
         }
 
         #endregion Async_Mode_Thread_Operations
+
+        private void btnConnect_Click(object sender, EventArgs e)
+        {  
+            InitPPCOM();
+        }
+
+        private void btnDisconnect_Click(object sender, EventArgs e)
+        {
+            ReleaseCOM();
+        }
+
     }
 
     static class ThreadMonitor
