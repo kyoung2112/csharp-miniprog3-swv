@@ -32,7 +32,7 @@ namespace MiniProg3_SWV
             InitializeComponent();
             
             /* Go ahead and attempt connection with Miniprog3 */
-            InitPPCOM();
+            //InitPPCOM();
         }
 
         bool SUCCEEDED(int hr)
@@ -108,16 +108,22 @@ namespace MiniProg3_SWV
 
         public enum Protocol { MANCHESTER, UART };
         public enum CommandMode { Sync, Async };
+        public enum Voltage {V5_0, V3_3, V2_5, V1_8, EXT};
+        public enum Connector {P10,P5};
 
         class GUI_Settings
         {
             public Protocol prot;
             public CommandMode cmdMode;
+            public Voltage volt;
+            public Connector conn;
 
             public GUI_Settings()
             {
                 this.prot = Protocol.MANCHESTER;
                 this.cmdMode = CommandMode.Sync;
+                this.volt = Voltage.V3_3;
+                this.conn = Connector.P10;
             }
         }
 
@@ -135,6 +141,22 @@ namespace MiniProg3_SWV
             else
                 guiSettings.cmdMode = CommandMode.Async;
 
+            if (rb5p0V.Checked)
+                guiSettings.volt = Voltage.V5_0;
+            else if (rb3p3V.Checked)
+                guiSettings.volt = Voltage.V3_3;
+            else if (rb2p5V.Checked)
+                guiSettings.volt = Voltage.V2_5;
+            else if (rb1p8V.Checked)
+                guiSettings.volt = Voltage.V1_8;
+            else
+                guiSettings.volt = Voltage.EXT;
+
+            if (rb10pin.Checked)
+                guiSettings.conn = Connector.P10;
+            else
+                guiSettings.conn = Connector.P5;
+
         }
 
         void SetGUISettings(GUI_Settings guiSettings)
@@ -148,6 +170,22 @@ namespace MiniProg3_SWV
                 rbSync.Checked = true;
             else
                 rbAsync.Checked = true;
+
+            if (guiSettings.volt == Voltage.V5_0)
+                rb5p0V.Checked = true;
+            else if (guiSettings.volt == Voltage.V3_3)
+                rb3p3V.Checked = true;
+            else if (guiSettings.volt == Voltage.V2_5)
+                rb2p5V.Checked = true;
+            else if (guiSettings.volt == Voltage.V1_8)
+                rb1p8V.Checked = true;
+            else if (guiSettings.volt == Voltage.EXT)
+                rbExt.Checked = true;
+
+            if (guiSettings.conn == Connector.P10)
+                rb10pin.Checked = true;
+            else
+                rb5pin.Checked = true;
         }
 
         #endregion GUI_Options
@@ -193,9 +231,10 @@ namespace MiniProg3_SWV
             return hr;
         }
 
-        private void InitPPCOM()
+        private void InitPPCOM(GUI_Settings guiSettings)
         {
             int hr;
+            string strVolt;
             string strError;
 
             if (pp != null) return; //Programmer already started
@@ -216,10 +255,29 @@ namespace MiniProg3_SWV
             }
 
             pp.SetProtocolClock(enumFrequencies.FREQ_03_0, out strError);
-            pp.SetProtocolConnector(1, out strError);
+            if (guiSettings.conn == Connector.P10)
+                pp.SetProtocolConnector(1, out strError);
+            else
+                pp.SetProtocolConnector(1, out strError);
+            
             pp.SetProtocol(enumInterfaces.SWD_SWV, out strError);
-            pp.SetPowerVoltage("5.0", out strError);
-            pp.PowerOn(out strError);
+
+            if (guiSettings.volt == Voltage.V5_0)
+                strVolt = "5.0";
+            else if (guiSettings.volt == Voltage.V3_3)
+                strVolt = "3.3";
+            else if (guiSettings.volt == Voltage.V2_5)
+                strVolt = "2.5";
+            else if (guiSettings.volt == Voltage.V1_8)
+                strVolt = "1.8";
+            else
+                strVolt = "EXT";
+
+            if (strVolt != "EXT")
+            {
+                pp.SetPowerVoltage(strVolt, out strError);
+                pp.PowerOn(out strError);
+            }
 
             pp.USB2IIC_ReceivedData += new _IPSoCProgrammerCOM_ObjectEvents_USB2IIC_ReceivedDataEventHandler(pp_USB2IIC_ReceivedData);
 
@@ -234,6 +292,8 @@ namespace MiniProg3_SWV
             //Close Port first
             if (pp != null)
             {
+                /* Turn power off first (in case the user is switching to ext power) */
+                pp.PowerOff(out m_sLastError);
                 pp.ClosePort(out m_sLastError);
             }
             else
@@ -278,6 +338,18 @@ namespace MiniProg3_SWV
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            ReleaseCOM();
+        }
+
+        private void btnConnect_Click(object sender, EventArgs e)
+        {
+            GUI_Settings guiSettings;
+            GetGUISettings(out guiSettings);
+            InitPPCOM(guiSettings);
+        }
+
+        private void btnDisconnect_Click(object sender, EventArgs e)
         {
             ReleaseCOM();
         }
@@ -366,15 +438,8 @@ namespace MiniProg3_SWV
 
         #endregion Async_Mode_Thread_Operations
 
-        private void btnConnect_Click(object sender, EventArgs e)
-        {  
-            InitPPCOM();
-        }
 
-        private void btnDisconnect_Click(object sender, EventArgs e)
-        {
-            ReleaseCOM();
-        }
+
 
     }
 
