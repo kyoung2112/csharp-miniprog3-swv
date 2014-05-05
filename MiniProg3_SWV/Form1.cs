@@ -395,7 +395,22 @@ namespace MiniProg3_SWV
 
                 for (int i = 0; i < data.Length; i++)
                 {
+#if false
+                    /* Show raw output for debug purposes */
                     ShowRepeatData(data[i].ToString("X2") + " ");
+#else
+                    /* Copy the proper data to the form. We are using channel 0 and just sending one byte, so 0x01 is the header for each
+                 * data packet. The sync frame is 0x00 and 0x80, so ignore these too. All other bytes are 
+                 * printed to the form */
+                    /* TODO: 
+                     * 1. Look for sync and read headers to determine channel and payload length to make it more generic.
+                     * 2. Print timestamps. */
+
+                    if ((data[i] != 0x01) && (data[i] != 0x00) && (data[i] != 0x80))
+                    {
+                        ShowRepeatData(Encoding.ASCII.GetString(new byte[] { data[i] }));
+                    }
+#endif 
                 }
             }
         }
