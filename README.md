@@ -13,5 +13,6 @@ The current functionality receives single bytes written to the LSB of stimulus r
 
 The accompanying firmware for the PSoC3 and PSoC5LP can be found here: https://github.com/kyoung2112/psoc_creator_swv_firmware
 
-**NOTE: The program is currently manually bound to PP_COM_Wrapper.dll that is installed with PSoC Programmer. When building for the first time (and after updating PSoC Programmer, you need to update the reference). Doing this requires the following process: In the solution explorer, right click on "References", choose "Add Reference…" and browse to "C:\Program Files (x86)\Cypress\Programmer\PP_COM_Wrapper.dll".**
+**NOTE: The program is currently manually bound to PP_COM_Wrapper.dll that is installed with PSoC Programmer. When building for the first time (and after updating PSoC Programmer), you need to update the reference. Doing this requires the following process: In the solution explorer, right click on "References", choose "Add Reference…" and browse to "C:\Program Files (x86)\Cypress\Programmer\PP_COM_Wrapper.dll".**
+
 I'm told that if the DLL references are changed to the "PP_ComLib_Wrapper.dll" which also installs with PSoC Programmer, it becomes version neutral and will work with future versions of PSoC Programmer without requiring updated references. I hope somebody can help with this!
