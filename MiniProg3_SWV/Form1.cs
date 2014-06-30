@@ -246,7 +246,7 @@ namespace MiniProg3_SWV
             {
                 if (pp.w_ConnectToLatest() == 0)
                 {
-                    AppendTextToLog("PP COM-object " + pp.Version());
+                    AppendTextToLog("Detected PSoC Programmer COM object version " + pp.Version());
                 }
                 else 
                 {
