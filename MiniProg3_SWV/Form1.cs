@@ -199,14 +199,9 @@ namespace MiniProg3_SWV
         {
             int hr;
             //Open Port - get last (connected) port in the ports list           
-#if FALSE
-            //Hard code for debug purposes
-            string[] portsStr={"MiniProg3/1229DD000738"};
-#else
             string[] portsStr;
             hr = pp.GetPorts(out portsStr, out strError);
             if (!SUCCEEDED(hr)) return hr;
-#endif
 
             if (portsStr.Length <= 0)
             {
@@ -246,6 +241,23 @@ namespace MiniProg3_SWV
             if (pp != null) return; //Programmer already started
 
             pp = new PP_ComLib_WrapperClass();
+
+            if (!pp.w_IsConnected())
+            {
+                if (pp.w_ConnectToLatest() == 0)
+                {
+                    AppendTextToLog("PP COM-object " + pp.Version());
+                }
+                else 
+                {
+                    AppendTextToLog("PSoC Programmer not installed. Please install PSoC Programmer and try again.");
+                    
+                    //Disconnect from COM-object and unload it
+                    pp = null;
+                    GC.GetTotalMemory(true);
+                    return;
+                }
+            }
 
             //Open and Configure MiniProg3 port
             hr = OpenPort(out strError);
