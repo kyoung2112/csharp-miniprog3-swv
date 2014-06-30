@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PP_COM_Wrapper;
+using PP_ComLib_Wrapper;
 
 namespace MiniProg3_SWV
 {

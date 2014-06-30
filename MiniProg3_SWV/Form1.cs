@@ -7,13 +7,15 @@ using System.Text;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Threading;
-using PP_COM_Wrapper;
+//using PP_COM_Wrapper;
+using PP_ComLib_Wrapper;
 
 namespace MiniProg3_SWV
 {
     public partial class Form1 : Form
     {
-        PSoCProgrammerCOM_ObjectClass pp;
+        //PSoCProgrammerCOM_ObjectClass pp;
+        PP_ComLib_WrapperClass pp;
         string m_sLastError = "";
 
         //External definitions for "Close" button
@@ -50,6 +52,7 @@ namespace MiniProg3_SWV
         {
             int hr = 0;
             enumSWVMode enumMode;
+            byte[] outBytes;
 
             ThreadMonitor.SetAbortFlag(false);
 
@@ -62,7 +65,7 @@ namespace MiniProg3_SWV
                 AppendTextToLog("==> Error! Not connected to programmer.");
                 return;
             }
-            hr = pp.SWV_Setup(enumMode, 6000000, null, out m_sLastError);
+            hr = pp.SWV_Setup(enumMode, 6000000, out outBytes, out m_sLastError);
             if (!SUCCEEDED(hr))
             {
                 AppendTextToLog("==> Error! Can't setup SWV configuration in PP COM. " + m_sLastError);
@@ -196,11 +199,11 @@ namespace MiniProg3_SWV
         {
             int hr;
             //Open Port - get last (connected) port in the ports list
-            object ports;
+            //object ports;
             string[] portsStr;
-            hr = pp.GetPorts(out ports, out strError);
+            hr = pp.GetPorts(out portsStr, out strError);
             if (!SUCCEEDED(hr)) return hr;
-            portsStr = ports as string[];
+            //portsStr = ports as string[];
 
             if (portsStr.Length <= 0)
             {
@@ -239,7 +242,7 @@ namespace MiniProg3_SWV
 
             if (pp != null) return; //Programmer already started
 
-            pp = new PSoCProgrammerCOM_ObjectClass();
+            pp = new PP_ComLib_WrapperClass();
 
             //Open and Configure MiniProg3 port
             hr = OpenPort(out strError);
@@ -279,11 +282,13 @@ namespace MiniProg3_SWV
                 pp.PowerOn(out strError);
             }
 
-            pp.USB2IIC_ReceivedData += new _IPSoCProgrammerCOM_ObjectEvents_USB2IIC_ReceivedDataEventHandler(pp_USB2IIC_ReceivedData);
+            //pp.USB2IIC_ReceivedData += new _IPSoCProgrammerCOM_ObjectEvents_USB2IIC_ReceivedDataEventHandler(pp_USB2IIC_ReceivedData);
+            pp.OnUSB2IIC_DataReceived += new PP_ComLib_Wrapper.PP_ComLib_WrapperClass.DelegateByteArrayParam(pp_USB2IIC_ReceivedData);
 
-            object ports;
-            hr = pp.GetPorts(out ports, out strError);
-            string[] portsStr = ports as string[];
+            //object ports;
+            string[] portsStr;
+            hr = pp.GetPorts(out portsStr, out strError);
+            //string[] portsStr = ports as string[];
             AppendTextToLog("Connected to '" + portsStr[0] + "' programmer!");
         }
 
@@ -383,14 +388,14 @@ namespace MiniProg3_SWV
         {
             long hr = 0;
             string strError = "";
-            object arr = null;
+            //object arr = null;
             byte[] data = null;
 
             while (true)
             {
                 if (ThreadMonitor.IsAborted()) break;
-                hr = pp.SWV_ReadData(out arr, out strError);                
-                data = arr as byte[];
+                hr = pp.SWV_ReadData(out data, out strError);                
+                //data = arr as byte[];
                 if (hr < 0) continue;
 
                 for (int i = 0; i < data.Length; i++)
