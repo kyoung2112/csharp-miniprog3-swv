@@ -32,9 +32,6 @@
             this.gbProtocol = new System.Windows.Forms.GroupBox();
             this.rbUART = new System.Windows.Forms.RadioButton();
             this.rbManchester = new System.Windows.Forms.RadioButton();
-            this.gbMode = new System.Windows.Forms.GroupBox();
-            this.rbAsync = new System.Windows.Forms.RadioButton();
-            this.rbSync = new System.Windows.Forms.RadioButton();
             this.btnExecute = new System.Windows.Forms.Button();
             this.rtbLog = new System.Windows.Forms.RichTextBox();
             this.timerUI = new System.Windows.Forms.Timer(this.components);
@@ -54,7 +51,6 @@
             this.rb10pin = new System.Windows.Forms.RadioButton();
             this.btnClear = new System.Windows.Forms.Button();
             this.gbProtocol.SuspendLayout();
-            this.gbMode.SuspendLayout();
             this.gbVoltage.SuspendLayout();
             this.gbConn.SuspendLayout();
             this.SuspendLayout();
@@ -91,39 +87,6 @@
             this.rbManchester.TabStop = true;
             this.rbManchester.Text = "Manchester";
             this.rbManchester.UseVisualStyleBackColor = true;
-            // 
-            // gbMode
-            // 
-            this.gbMode.Controls.Add(this.rbAsync);
-            this.gbMode.Controls.Add(this.rbSync);
-            this.gbMode.Location = new System.Drawing.Point(176, 2);
-            this.gbMode.Name = "gbMode";
-            this.gbMode.Size = new System.Drawing.Size(139, 40);
-            this.gbMode.TabIndex = 1;
-            this.gbMode.TabStop = false;
-            this.gbMode.Text = "Command Mode";
-            // 
-            // rbAsync
-            // 
-            this.rbAsync.AutoSize = true;
-            this.rbAsync.Checked = true;
-            this.rbAsync.Location = new System.Drawing.Point(10, 16);
-            this.rbAsync.Name = "rbAsync";
-            this.rbAsync.Size = new System.Drawing.Size(54, 17);
-            this.rbAsync.TabIndex = 1;
-            this.rbAsync.TabStop = true;
-            this.rbAsync.Text = "Async";
-            this.rbAsync.UseVisualStyleBackColor = true;
-            // 
-            // rbSync
-            // 
-            this.rbSync.AutoSize = true;
-            this.rbSync.Location = new System.Drawing.Point(74, 17);
-            this.rbSync.Name = "rbSync";
-            this.rbSync.Size = new System.Drawing.Size(49, 17);
-            this.rbSync.TabIndex = 0;
-            this.rbSync.Text = "Sync";
-            this.rbSync.UseVisualStyleBackColor = true;
             // 
             // btnExecute
             // 
@@ -323,7 +286,6 @@
             this.Controls.Add(this.btnConnect);
             this.Controls.Add(this.rtbLog);
             this.Controls.Add(this.btnExecute);
-            this.Controls.Add(this.gbMode);
             this.Controls.Add(this.gbProtocol);
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(400, 397);
@@ -333,8 +295,6 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.gbProtocol.ResumeLayout(false);
             this.gbProtocol.PerformLayout();
-            this.gbMode.ResumeLayout(false);
-            this.gbMode.PerformLayout();
             this.gbVoltage.ResumeLayout(false);
             this.gbVoltage.PerformLayout();
             this.gbConn.ResumeLayout(false);
@@ -348,9 +308,6 @@
         private System.Windows.Forms.GroupBox gbProtocol;
         private System.Windows.Forms.RadioButton rbUART;
         private System.Windows.Forms.RadioButton rbManchester;
-        private System.Windows.Forms.GroupBox gbMode;
-        private System.Windows.Forms.RadioButton rbAsync;
-        private System.Windows.Forms.RadioButton rbSync;
         private System.Windows.Forms.Button btnExecute;
         private System.Windows.Forms.RichTextBox rtbLog;
         private System.Windows.Forms.Timer timerUI;

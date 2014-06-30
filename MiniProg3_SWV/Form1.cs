@@ -26,8 +26,6 @@ namespace MiniProg3_SWV
         private static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
         [DllImport("user32.dll")]
         private static extern int EnableMenuItem(IntPtr hMenu, int wIDEnableItem, int wEnable);
-        
-        Thread hThread;
 
         public Form1()
         {
@@ -72,19 +70,15 @@ namespace MiniProg3_SWV
                 return;
             }
 
-            if (guiSettings.cmdMode == CommandMode.Sync)
-                StartInterpretThread();
-            else
+            //Start Async mode in COM-level
+            string strError = "";
+            hr = pp.USB2IIC_AsyncMode1(2, null, out strError);  //Start bulk async mode in COM
+            if (!SUCCEEDED(hr))
             {
-                //Start Async mode in COM-level
-                string strError = "";
-                hr = pp.USB2IIC_AsyncMode1(2, null, out strError);  //Start bulk async mode in COM
-                if (!SUCCEEDED(hr))
-                {
-                    AppendTextToLog("==> Error! Can't set async mode in PP COM. " + m_sLastError);
-                    return;
-                }
+                AppendTextToLog("==> Error! Can't set async mode in PP COM. " + m_sLastError);
+                return;
             }
+         
 
             guiStatusNow.Busy = Busy.BUSY;
 
@@ -92,9 +86,6 @@ namespace MiniProg3_SWV
 
         void StopCommand(GUI_Settings guiSettings)
         {
-            //Stop Sync mode thread
-            KillThread();
-
             //Stop Async mode thread
             string strError = "";
             int hr = pp.USB2IIC_AsyncMode1(0, null, out strError);  //Stop bulk async mode
@@ -117,14 +108,12 @@ namespace MiniProg3_SWV
         class GUI_Settings
         {
             public Protocol prot;
-            public CommandMode cmdMode;
             public Voltage volt;
             public Connector conn;
 
             public GUI_Settings()
             {
                 this.prot = Protocol.MANCHESTER;
-                this.cmdMode = CommandMode.Sync;
                 this.volt = Voltage.V3_3;
                 this.conn = Connector.P10;
             }
@@ -138,11 +127,6 @@ namespace MiniProg3_SWV
                 guiSettings.prot = Protocol.MANCHESTER;
             else
                 guiSettings.prot = Protocol.UART;
-
-            if (rbSync.Checked)
-                guiSettings.cmdMode = CommandMode.Sync;
-            else
-                guiSettings.cmdMode = CommandMode.Async;
 
             if (rb5p0V.Checked)
                 guiSettings.volt = Voltage.V5_0;
@@ -168,11 +152,6 @@ namespace MiniProg3_SWV
                 rbManchester.Checked = true;
             else
                 rbUART.Checked = true;
-
-            if (guiSettings.cmdMode == CommandMode.Sync)
-                rbSync.Checked = true;
-            else
-                rbAsync.Checked = true;
 
             if (guiSettings.volt == Voltage.V5_0)
                 rb5p0V.Checked = true;
@@ -381,61 +360,6 @@ namespace MiniProg3_SWV
 
         #endregion GUI_Events
 
-        #region Sync_Mode_Thread_Operations
-
-        private void StartInterpretThread()
-        {
-            hThread = new Thread(new ThreadStart(RunRepeatProc));
-            hThread.Start();
-        }
-
-        private void KillThread()
-        {
-            if (hThread == null) return;
-            hThread.Abort();
-            hThread.Join(1000);
-            Thread.Sleep(100);
-            ThreadMonitor.SetAbortFlag(true);
-            hThread = null;            
-        }
-
-        private void RunRepeatProc()
-        {
-            long hr = 0;
-            string strError = "";
-            //object arr = null;
-            byte[] data = null;
-
-            while (true)
-            {
-                if (ThreadMonitor.IsAborted()) break;
-                hr = pp.SWV_ReadData(out data, out strError);                
-                //data = arr as byte[];
-                if (hr < 0) continue;
-
-                for (int i = 0; i < data.Length; i++)
-                {
-#if false
-                    /* Show raw output for debug purposes */
-                    ShowRepeatData(data[i].ToString("X2") + " ");
-#else
-                    /* Copy the proper data to the form. We are using channel 0 and just sending one byte, so 0x01 is the header for each
-                 * data packet. The sync frame is 0x00 and 0x80, so ignore these too. All other bytes are 
-                 * printed to the form */
-                    /* TODO: 
-                     * 1. Look for sync and read headers to determine channel and payload length to make it more generic.
-                     * 2. Print timestamps. */
-
-                    if ((data[i] != 0x01) && (data[i] != 0x00) && (data[i] != 0x80))
-                    {
-                        ShowRepeatData(Encoding.ASCII.GetString(new byte[] { data[i] }));
-                    }
-#endif 
-                }
-            }
-        }
-
-        #endregion Sync_Mode_Thread_Operations
 
         #region Async_Mode_Thread_Operations
 
