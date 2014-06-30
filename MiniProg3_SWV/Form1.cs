@@ -198,12 +198,15 @@ namespace MiniProg3_SWV
         private int OpenPort(out string strError)
         {
             int hr;
-            //Open Port - get last (connected) port in the ports list
-            //object ports;
+            //Open Port - get last (connected) port in the ports list           
+#if FALSE
+            //Hard code for debug purposes
+            string[] portsStr={"MiniProg3/1229DD000738"};
+#else
             string[] portsStr;
             hr = pp.GetPorts(out portsStr, out strError);
             if (!SUCCEEDED(hr)) return hr;
-            //portsStr = ports as string[];
+#endif
 
             if (portsStr.Length <= 0)
             {
