@@ -253,9 +253,13 @@ namespace MiniProg3_SWV
 
             pp.SetProtocolClock(enumFrequencies.FREQ_03_0, out strError);
             if (guiSettings.conn == Connector.P10)
+            {
                 pp.SetProtocolConnector(1, out strError);
+            }
             else
-                pp.SetProtocolConnector(1, out strError);
+            {
+                pp.SetProtocolConnector(0, out strError);
+            }
             
             pp.SetProtocol(enumInterfaces.SWD_SWV, out strError);
 
@@ -276,7 +280,7 @@ namespace MiniProg3_SWV
                 pp.PowerOn(out strError);
             }
 
-            //pp.USB2IIC_ReceivedData += new _IPSoCProgrammerCOM_ObjectEvents_USB2IIC_ReceivedDataEventHandler(pp_USB2IIC_ReceivedData);
+            /* Init the event handler for received data */
             pp.OnUSB2IIC_DataReceived += new PP_ComLib_Wrapper.PP_ComLib_WrapperClass.DelegateByteArrayParam(pp_USB2IIC_ReceivedData);
 
             //object ports;
