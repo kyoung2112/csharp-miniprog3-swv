@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.gbProtocol = new System.Windows.Forms.GroupBox();
             this.rbUART = new System.Windows.Forms.RadioButton();
             this.rbManchester = new System.Windows.Forms.RadioButton();
@@ -36,7 +37,6 @@
             this.rtbLog = new System.Windows.Forms.RichTextBox();
             this.timerUI = new System.Windows.Forms.Timer(this.components);
             this.btnConnect = new System.Windows.Forms.Button();
-            this.btnDisconnect = new System.Windows.Forms.Button();
             this.gbVoltage = new System.Windows.Forms.GroupBox();
             this.rbExt = new System.Windows.Forms.RadioButton();
             this.rb1p8V = new System.Windows.Forms.RadioButton();
@@ -90,7 +90,7 @@
             // 
             // btnExecute
             // 
-            this.btnExecute.Location = new System.Drawing.Point(5, 48);
+            this.btnExecute.Location = new System.Drawing.Point(86, 48);
             this.btnExecute.Name = "btnExecute";
             this.btnExecute.Size = new System.Drawing.Size(75, 23);
             this.btnExecute.TabIndex = 2;
@@ -100,9 +100,14 @@
             // 
             // rtbLog
             // 
-            this.rtbLog.Location = new System.Drawing.Point(5, 116);
+            this.rtbLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.rtbLog.BackColor = System.Drawing.Color.White;
+            this.rtbLog.HideSelection = false;
+            this.rtbLog.Location = new System.Drawing.Point(5, 77);
             this.rtbLog.Name = "rtbLog";
-            this.rtbLog.Size = new System.Drawing.Size(318, 239);
+            this.rtbLog.Size = new System.Drawing.Size(498, 281);
             this.rtbLog.TabIndex = 4;
             this.rtbLog.Text = "";
             // 
@@ -114,23 +119,13 @@
             // 
             // btnConnect
             // 
-            this.btnConnect.Location = new System.Drawing.Point(167, 48);
+            this.btnConnect.Location = new System.Drawing.Point(5, 48);
             this.btnConnect.Name = "btnConnect";
             this.btnConnect.Size = new System.Drawing.Size(75, 23);
             this.btnConnect.TabIndex = 5;
             this.btnConnect.Text = "Connect";
             this.btnConnect.UseVisualStyleBackColor = true;
             this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
-            // 
-            // btnDisconnect
-            // 
-            this.btnDisconnect.Location = new System.Drawing.Point(248, 48);
-            this.btnDisconnect.Name = "btnDisconnect";
-            this.btnDisconnect.Size = new System.Drawing.Size(75, 23);
-            this.btnDisconnect.TabIndex = 6;
-            this.btnDisconnect.Text = "Disconnect";
-            this.btnDisconnect.UseVisualStyleBackColor = true;
-            this.btnDisconnect.Click += new System.EventHandler(this.btnDisconnect_Click);
             // 
             // gbVoltage
             // 
@@ -139,7 +134,7 @@
             this.gbVoltage.Controls.Add(this.rb2p5V);
             this.gbVoltage.Controls.Add(this.rb3p3V);
             this.gbVoltage.Controls.Add(this.rb5p0V);
-            this.gbVoltage.Location = new System.Drawing.Point(5, 77);
+            this.gbVoltage.Location = new System.Drawing.Point(176, 2);
             this.gbVoltage.Name = "gbVoltage";
             this.gbVoltage.Size = new System.Drawing.Size(232, 40);
             this.gbVoltage.TabIndex = 7;
@@ -205,7 +200,7 @@
             this.gbConn.Controls.Add(this.radioButton6);
             this.gbConn.Controls.Add(this.rb5pin);
             this.gbConn.Controls.Add(this.rb10pin);
-            this.gbConn.Location = new System.Drawing.Point(233, 77);
+            this.gbConn.Location = new System.Drawing.Point(414, 2);
             this.gbConn.Name = "gbConn";
             this.gbConn.Size = new System.Drawing.Size(90, 40);
             this.gbConn.TabIndex = 8;
@@ -266,7 +261,7 @@
             // 
             // btnClear
             // 
-            this.btnClear.Location = new System.Drawing.Point(86, 48);
+            this.btnClear.Location = new System.Drawing.Point(167, 48);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(75, 23);
             this.btnClear.TabIndex = 9;
@@ -278,20 +273,20 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(334, 361);
+            this.ClientSize = new System.Drawing.Size(514, 362);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.gbConn);
             this.Controls.Add(this.gbVoltage);
-            this.Controls.Add(this.btnDisconnect);
             this.Controls.Add(this.btnConnect);
             this.Controls.Add(this.rtbLog);
             this.Controls.Add(this.btnExecute);
             this.Controls.Add(this.gbProtocol);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(400, 397);
-            this.MinimumSize = new System.Drawing.Size(350, 397);
+            this.MaximumSize = new System.Drawing.Size(3000, 3000);
+            this.MinimumSize = new System.Drawing.Size(530, 400);
             this.Name = "Form1";
-            this.Text = "MiniProg3 SWV Debug Tool";
+            this.Text = "Cypress Serial Wire Viewer";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.gbProtocol.ResumeLayout(false);
             this.gbProtocol.PerformLayout();
@@ -312,7 +307,6 @@
         private System.Windows.Forms.RichTextBox rtbLog;
         private System.Windows.Forms.Timer timerUI;
         private System.Windows.Forms.Button btnConnect;
-        private System.Windows.Forms.Button btnDisconnect;
         private System.Windows.Forms.GroupBox gbVoltage;
         private System.Windows.Forms.RadioButton rb3p3V;
         private System.Windows.Forms.RadioButton rb5p0V;

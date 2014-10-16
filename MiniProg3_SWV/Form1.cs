@@ -7,14 +7,12 @@ using System.Text;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Threading;
-//using PP_COM_Wrapper;
 using PP_ComLib_Wrapper;
 
 namespace MiniProg3_SWV
-{
+{    
     public partial class Form1 : Form
     {
-        //PSoCProgrammerCOM_ObjectClass pp;
         PP_ComLib_WrapperClass pp;
         string m_sLastError = "";
 
@@ -42,8 +40,8 @@ namespace MiniProg3_SWV
 
         void AppendTextToLog(string text)
         {
-            rtbLog.AppendText(text);
             rtbLog.AppendText("\r\n");
+            rtbLog.AppendText(text);
         }
 
         void StartCommand(GUI_Settings guiSettings)
@@ -211,6 +209,8 @@ namespace MiniProg3_SWV
             return hr;
         }
 
+        int connected = 0;  // DTV
+
         private void InitPPCOM(GUI_Settings guiSettings)
         {
             int hr;
@@ -288,6 +288,8 @@ namespace MiniProg3_SWV
             hr = pp.GetPorts(out portsStr, out strError);
             //string[] portsStr = ports as string[];
             AppendTextToLog("Connected to '" + portsStr[0] + "' programmer!");
+            btnConnect.Text = "Disconnect";     // DTV
+            connected = 1;                      // DTV
         }
 
         private void ReleaseCOM()
@@ -347,14 +349,29 @@ namespace MiniProg3_SWV
 
         private void btnConnect_Click(object sender, EventArgs e)
         {
+            // DTV
+
             GUI_Settings guiSettings;
             GetGUISettings(out guiSettings);
-            InitPPCOM(guiSettings);
-        }
-
-        private void btnDisconnect_Click(object sender, EventArgs e)
-        {
-            ReleaseCOM();
+            
+            if (connected == 0)
+            {          
+                InitPPCOM(guiSettings);
+                StartCommand(guiSettings);
+                gbProtocol.Enabled = false;
+                gbVoltage.Enabled = false;
+                gbConn.Enabled = false;
+            }
+            else
+            {
+                StopCommand(guiSettings);
+                ReleaseCOM();
+                connected = 0;
+                btnConnect.Text = "Connect";
+                gbProtocol.Enabled = true;
+                gbVoltage.Enabled = true;
+                gbConn.Enabled = true;
+            }
         }
 
         private void btnClear_Click(object sender, EventArgs e)
@@ -409,7 +426,11 @@ namespace MiniProg3_SWV
 
         private void _ShowRepeatData(string text)
         {
-            rtbLog.AppendText(text);
+            if( text != "\r")
+            {
+                rtbLog.AppendText(text);
+            }
+            //DTV - rtbLog Set HideSelection to FALSE to keep focus and maintain scrolling
         }
 
         #endregion Async_Mode_Thread_Operations
