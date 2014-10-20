@@ -451,7 +451,6 @@ namespace MiniProg3_SWV
         }
 
         #endregion Async_Mode_Thread_Operations
-
                
     }
 
