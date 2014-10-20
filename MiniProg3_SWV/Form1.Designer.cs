@@ -50,6 +50,8 @@
             this.rb5pin = new System.Windows.Forms.RadioButton();
             this.rb10pin = new System.Windows.Forms.RadioButton();
             this.btnClear = new System.Windows.Forms.Button();
+            this.cbFreq = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.gbProtocol.SuspendLayout();
             this.gbVoltage.SuspendLayout();
             this.gbConn.SuspendLayout();
@@ -269,11 +271,286 @@
             this.btnClear.UseVisualStyleBackColor = true;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
+            // cbFreq
+            // 
+            this.cbFreq.FormattingEnabled = true;
+            this.cbFreq.Items.AddRange(new object[] {
+            "24,000,000",
+            "16,000,000",
+            "12,000,000",
+            "9,600,000",
+            "8,000,000",
+            "6,857,143",
+            "6,000,000",
+            "5,333,333",
+            "4,800,000",
+            "4,363,636",
+            "4,000,000",
+            "3,692,308",
+            "3,428,571",
+            "3,200,000",
+            "3,000,000",
+            "2,823,529",
+            "2,666,667",
+            "2,526,316",
+            "2,400,000",
+            "2,285,714",
+            "2,181,818",
+            "2,086,957",
+            "2,000,000",
+            "1,920,000",
+            "1,846,154",
+            "1,777,778",
+            "1,714,286",
+            "1,655,172",
+            "1,600,000",
+            "1,548,387",
+            "1,500,000",
+            "1,454,545",
+            "1,411,765",
+            "1,371,429",
+            "1,333,333",
+            "1,297,297",
+            "1,263,158",
+            "1,230,769",
+            "1,200,000",
+            "1,170,732",
+            "1,142,857",
+            "1,116,279",
+            "1,090,909",
+            "1,066,667",
+            "1,043,478",
+            "1,021,277",
+            "1,000,000",
+            "979,592",
+            "960,000",
+            "941,176",
+            "923,077",
+            "905,660",
+            "888,889",
+            "872,727",
+            "857,143",
+            "842,105",
+            "827,586",
+            "813,559",
+            "800,000",
+            "786,885",
+            "774,194",
+            "761,905",
+            "750,000",
+            "738,462",
+            "727,273",
+            "716,418",
+            "705,882",
+            "695,652",
+            "685,714",
+            "676,056",
+            "666,667",
+            "657,534",
+            "648,649",
+            "640,000",
+            "631,579",
+            "623,377",
+            "615,385",
+            "607,595",
+            "600,000",
+            "592,593",
+            "585,366",
+            "578,313",
+            "571,429",
+            "564,706",
+            "558,140",
+            "551,724",
+            "545,455",
+            "539,326",
+            "533,333",
+            "527,473",
+            "521,739",
+            "516,129",
+            "510,638",
+            "505,263",
+            "500,000",
+            "494,845",
+            "489,796",
+            "484,848",
+            "480,000",
+            "475,248",
+            "470,588",
+            "466,019",
+            "461,538",
+            "457,143",
+            "452,830",
+            "448,598",
+            "444,444",
+            "440,367",
+            "436,364",
+            "432,432",
+            "428,571",
+            "424,779",
+            "421,053",
+            "417,391",
+            "413,793",
+            "410,256",
+            "406,780",
+            "403,361",
+            "400,000",
+            "396,694",
+            "393,443",
+            "390,244",
+            "387,097",
+            "384,000",
+            "380,952",
+            "377,953",
+            "375,000",
+            "372,093",
+            "369,231",
+            "366,412",
+            "363,636",
+            "360,902",
+            "358,209",
+            "355,556",
+            "352,941",
+            "350,365",
+            "347,826",
+            "345,324",
+            "342,857",
+            "340,426",
+            "338,028",
+            "335,664",
+            "333,333",
+            "331,034",
+            "328,767",
+            "326,531",
+            "324,324",
+            "322,148",
+            "320,000",
+            "317,881",
+            "315,789",
+            "313,725",
+            "311,688",
+            "309,677",
+            "307,692",
+            "305,732",
+            "303,797",
+            "301,887",
+            "300,000",
+            "298,137",
+            "296,296",
+            "294,479",
+            "292,683",
+            "290,909",
+            "289,157",
+            "287,425",
+            "285,714",
+            "284,024",
+            "282,353",
+            "280,702",
+            "279,070",
+            "277,457",
+            "275,862",
+            "274,286",
+            "272,727",
+            "271,186",
+            "269,663",
+            "268,156",
+            "266,667",
+            "265,193",
+            "263,736",
+            "262,295",
+            "260,870",
+            "259,459",
+            "258,065",
+            "256,684",
+            "255,319",
+            "253,968",
+            "252,632",
+            "251,309",
+            "250,000",
+            "248,705",
+            "247,423",
+            "246,154",
+            "244,898",
+            "243,655",
+            "242,424",
+            "241,206",
+            "240,000",
+            "238,806",
+            "237,624",
+            "236,453",
+            "235,294",
+            "234,146",
+            "233,010",
+            "231,884",
+            "230,769",
+            "229,665",
+            "228,571",
+            "227,488",
+            "226,415",
+            "225,352",
+            "224,299",
+            "223,256",
+            "222,222",
+            "221,198",
+            "220,183",
+            "219,178",
+            "218,182",
+            "217,195",
+            "216,216",
+            "215,247",
+            "214,286",
+            "213,333",
+            "212,389",
+            "211,454",
+            "210,526",
+            "209,607",
+            "208,696",
+            "207,792",
+            "206,897",
+            "206,009",
+            "205,128",
+            "204,255",
+            "203,390",
+            "202,532",
+            "201,681",
+            "200,837",
+            "200,000",
+            "199,170",
+            "198,347",
+            "197,531",
+            "196,721",
+            "195,918",
+            "195,122",
+            "194,332",
+            "193,548",
+            "192,771",
+            "192,000",
+            "191,235",
+            "190,476",
+            "189,723",
+            "188,976",
+            "188,235"});
+            this.cbFreq.Location = new System.Drawing.Point(414, 50);
+            this.cbFreq.Name = "cbFreq";
+            this.cbFreq.Size = new System.Drawing.Size(90, 21);
+            this.cbFreq.TabIndex = 10;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(351, 53);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(57, 13);
+            this.label1.TabIndex = 11;
+            this.label1.Tag = "F";
+            this.label1.Text = "Frequency";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(514, 362);
+            this.ClientSize = new System.Drawing.Size(514, 364);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.cbFreq);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.gbConn);
             this.Controls.Add(this.gbVoltage);
@@ -288,6 +565,7 @@
             this.Name = "Form1";
             this.Text = "Cypress Serial Wire Viewer";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.gbProtocol.ResumeLayout(false);
             this.gbProtocol.PerformLayout();
             this.gbVoltage.ResumeLayout(false);
@@ -295,6 +573,7 @@
             this.gbConn.ResumeLayout(false);
             this.gbConn.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -320,6 +599,8 @@
         private System.Windows.Forms.RadioButton rb5pin;
         private System.Windows.Forms.RadioButton rb10pin;
         private System.Windows.Forms.Button btnClear;
+        private System.Windows.Forms.ComboBox cbFreq;
+        private System.Windows.Forms.Label label1;
     }
 }
 

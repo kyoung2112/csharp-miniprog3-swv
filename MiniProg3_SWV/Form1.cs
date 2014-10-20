@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Threading;
 using PP_ComLib_Wrapper;
+using System.Globalization;
 
 namespace MiniProg3_SWV
 {    
@@ -47,6 +48,7 @@ namespace MiniProg3_SWV
         void StartCommand(GUI_Settings guiSettings)
         {
             int hr = 0;
+            int swvclk;
             enumSWVMode enumMode;
             byte[] outBytes;
 
@@ -61,7 +63,10 @@ namespace MiniProg3_SWV
                 AppendTextToLog("==> Error! Not connected to programmer.");
                 return;
             }
-            hr = pp.SWV_Setup(enumMode, 6000000, out outBytes, out m_sLastError);
+           
+            swvclk = int.Parse(cbFreq.SelectedItem.ToString(), NumberStyles.AllowThousands);
+
+            hr = pp.SWV_Setup(enumMode, swvclk, out outBytes, out m_sLastError);
             if (!SUCCEEDED(hr))
             {
                 AppendTextToLog("==> Error! Can't setup SWV configuration in PP COM. " + m_sLastError);
@@ -358,25 +363,37 @@ namespace MiniProg3_SWV
             {          
                 InitPPCOM(guiSettings);
                 StartCommand(guiSettings);
+
+                /* Disable connection setting elements */
                 gbProtocol.Enabled = false;
                 gbVoltage.Enabled = false;
                 gbConn.Enabled = false;
+                cbFreq.Enabled = false;
             }
             else
             {
+                
                 StopCommand(guiSettings);
                 ReleaseCOM();
                 connected = 0;
                 btnConnect.Text = "Connect";
+
+                /* Re-enable connection setting elements */
                 gbProtocol.Enabled = true;
                 gbVoltage.Enabled = true;
                 gbConn.Enabled = true;
+                cbFreq.Enabled = true;
             }
         }
 
         private void btnClear_Click(object sender, EventArgs e)
         {
             rtbLog.Clear();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            cbFreq.SelectedIndex = 6; //Default to 6 MHz
         }
 
         #endregion GUI_Events
@@ -435,7 +452,7 @@ namespace MiniProg3_SWV
 
         #endregion Async_Mode_Thread_Operations
 
-        
+                
     }
 
     static class ThreadMonitor
