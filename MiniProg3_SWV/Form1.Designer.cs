@@ -563,7 +563,7 @@
             this.MaximumSize = new System.Drawing.Size(3000, 3000);
             this.MinimumSize = new System.Drawing.Size(530, 400);
             this.Name = "Form1";
-            this.Text = "Cypress Serial Wire Viewer";
+            this.Text = "Cypress Serial Debug Console";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.gbProtocol.ResumeLayout(false);
