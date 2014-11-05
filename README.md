@@ -4,7 +4,7 @@ This is a SWV Printf Viewer for Miniprog3. It is based on the SWV example provid
 
 The project is built using Visual C# 2010 Express, which is available for free from Microsoft: http://www.visualstudio.com/en-us/downloads/download-visual-studio-vs
 
-Download the binary with installer from: https://www.dropbox.com/s/iypxk5npp6n98mf/SWV%20Setup.exe?dl=0
+Download the binary with installer from: https://www.dropbox.com/s/embu91bv8kuss7u/CySerialDebugSetup.exe?dl=0
 
 The current functionality receives single bytes written to the LSB of stimulus register 0 and written out over SWV. It prints them to the text window. The GUI has selection capability for the following MiniProg3 settings:
 
